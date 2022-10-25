@@ -15,10 +15,17 @@ var options = {
   ansiColors: {},
 };
 if (__resourceQuery) {
-  var overrides = Object.fromEntries(
-    new URLSearchParams(__resourceQuery.slice(1))
-  );
-  setOverrides(overrides);
+  var overrides;
+  if (
+    typeof window !== undefined &&
+    typeof window.URLSearchParams !== undefined
+  ) {
+    overrides = new URLSearchParams(__resourceQuery.slice(1));
+  } else {
+    const { URLSearchParams } = require('url');
+    overrides = new URLSearchParams(__resourceQuery.slice(1));
+  }
+  setOverrides(Object.fromEntries(overrides));
 }
 
 if (typeof window === 'undefined') {
@@ -178,7 +185,7 @@ function createReporter() {
   function log(type, obj) {
     var newProblems = obj[type]
       .map(function (msg) {
-        return strip(msg);
+        return strip(msg.message ? msg.message : msg);
       })
       .join('\n');
     if (previousProblems == newProblems) {

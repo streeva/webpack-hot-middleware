@@ -1,3 +1,7 @@
+<center>
+<h1>THIS IS A FORK TO BE COMPATIBLE WITH WEBPACK 5 & FAST REFRESH</h1>
+</center>
+
 # Webpack Hot Middleware
 
 Webpack hot reloading using only [webpack-dev-middleware](https://webpack.js.org/guides/development/#webpack-dev-middleware). This allows you to add hot reloading into an existing server without [webpack-dev-server](https://webpack.js.org/configuration/dev-server/).
