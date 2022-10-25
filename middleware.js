@@ -122,6 +122,9 @@ function publishStats(action, statsResult, eventStream, log) {
     modules: true,
     timings: true,
     hash: true,
+    warnings: true,
+    errors: true,
+    ids: true,
   });
   // For multi-compiler, stats will be an object with a 'children' array of stats
   var bundles = extractBundles(stats);
@@ -148,8 +151,8 @@ function publishStats(action, statsResult, eventStream, log) {
       action: action,
       time: stats.time,
       hash: stats.hash,
-      warnings: stats.warnings || [],
-      errors: stats.errors || [],
+      warnings: stats.warnings,
+      errors: stats.errors,
       modules: buildModuleMap(stats.modules),
     });
   });
@@ -169,7 +172,9 @@ function extractBundles(stats) {
 function buildModuleMap(modules) {
   var map = {};
   modules.forEach(function (module) {
-    map[module.id] = module.name;
+    if (module.id) {
+      map[module.id] = module.name;
+    }
   });
   return map;
 }

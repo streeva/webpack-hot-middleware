@@ -22,10 +22,10 @@ if (__resourceQuery) {
   ) {
     overrides = new URLSearchParams(__resourceQuery.slice(1));
   } else {
-    var { URLSearchParams } = require('url');
+    const { URLSearchParams } = require('url');
     overrides = new URLSearchParams(__resourceQuery.slice(1));
   }
-  setOverrides(overrides);
+  setOverrides(Object.fromEntries(overrides));
 }
 
 if (typeof window === 'undefined') {
@@ -185,7 +185,7 @@ function createReporter() {
   function log(type, obj) {
     var newProblems = obj[type]
       .map(function (msg) {
-        return strip(msg);
+        return strip(msg.message ? msg.message : msg);
       })
       .join('\n');
     if (previousProblems == newProblems) {
