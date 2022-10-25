@@ -43,7 +43,11 @@ function showProblems(type, lines) {
     msg = ansiHTML(htmlEntities.encode(msg));
     var div = document.createElement('div');
     div.style.marginBottom = '26px';
-    div.innerHTML = problemType(type) + ' in ' + msg;
+    if (msg.message) {
+      div.innerHTML = problemType(type) + ' in ' + msg.message;
+    } else {
+      div.innerHTML = problemType(type) + ' in ' + msg;
+    }
     clientOverlay.appendChild(div);
   });
   if (document.body) {
